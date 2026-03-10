@@ -63,8 +63,7 @@ const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_L, KC_SCLN, COMBO_END};
-// const uint16_t PROGMEM lcbr_combo[] = {KC_LPRN, KC_RPRN, COMBO_END};
-// const uint16_t PROGMEM rcbr_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
+
 combo_t key_combos[] = {
     COMBO(esc_combo, KC_ESC),
     COMBO(tab_combo, KC_TAB),
@@ -74,8 +73,6 @@ combo_t key_combos[] = {
     COMBO(pipe_combo, KC_PIPE),
     COMBO(nav_combo, TT_NAV),
     COMBO(num_combo, TT_NUM),
-    // COMBO(lcbr_combo, KC_LCBR),
-    // COMBO(rcbr_combo, KC_RCBR),
 };
 
 
@@ -86,39 +83,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_QUOT,
   ESC_NAV,  KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_ENT,
   KC_LCTL,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,   XXXXXXX, XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_BSLS,
-                             KC_LALT, TT_NUM, SFT_BSC, LA_EXT, LA_SYM,   KC_SPC,  LA_NUM, XXXXXXX
+                             KC_LALT, TT_NAV, SFT_BSC, LA_SYM, LA_EXT,   KC_SPC,  LA_NUM, XXXXXXX
 ),
 
-// [EXT] = LAYOUT(
-//   KC_ESC,  _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
-//   _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_CIRC, KC_LBRC, KC_RBRC, KC_DLR,  KC_DQUO, _______,
-//   KC_UNDO, OS_CTL,  OS_ALT,  OS_CMD,  OS_SFT,  SW_WIN,                    KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, KC_COLN, _______,
-//   _______, KC_GRV,  KC_CUT,  KC_COPY, KC_PSTE, SW_TAB,  _______, _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_QUOT, _______,
-//                              _______, _______, _______, _______, _______, KC_SPTL, _______, _______
-// ),
-//
-// [SYM] = LAYOUT(
-//   KC_TILD, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
-//   _______, KC_EXLM, KC_AT,   XXXXXXX, XXXXXXX, KC_PERC,                   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-//   _______, KC_TILD, KC_BSLS, KC_LCBR, KC_RCBR, KC_HASH,                   TT_NUM,  OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,  _______,
-//   _______, KC_GRV,  KC_PIPE, KC_AMPR, XXXXXXX, KC_PLUS, _______, _______, _______, _______, _______, _______, CW_TOGG,  _______,
-//                              _______, CW_TOGG, KC_DEL,  _______, _______, _______, _______, _______
-// ),
-
 [EXT] = LAYOUT(
+  KC_TILD, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
+  _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+  _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,  _______,
+  _______, XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CW_TOGG,  _______,
+                             _______, CW_TOGG, KC_DEL,  _______, _______, _______, _______, _______
+),
+
+[SYM] = LAYOUT(
   KC_ESC,  _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
   _______, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PERC,                   KC_CIRC, KC_LBRC, KC_RBRC, KC_DLR,  KC_DQUO, _______,
   KC_UNDO, OS_CTL,  OS_ALT,  OS_CMD,  OS_SFT,  KC_HASH,                   KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, KC_COLN, _______,
   _______, KC_GRV,  KC_TILD, KC_BSLS, KC_AMPR, KC_PLUS, _______, _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_QUOT, _______,
                              _______, _______, _______, _______, _______, KC_SPTL, _______, _______
-),
-
-[SYM] = LAYOUT(
-  KC_TILD, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
-  _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-  _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   _______, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,  _______,
-  _______, XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______, _______, CW_TOGG,  _______,
-                             _______, CW_TOGG, KC_DEL,  _______, _______, _______, _______, _______
 ),
 
 [NAV] = LAYOUT(
@@ -145,6 +126,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                              _______, KC_0,    KC_DOT,  KC_ENT,  _______, _______, _______, _______
 )
 
+// [EXT] = LAYOUT(
+//   KC_ESC,  _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
+//   _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_CIRC, KC_LBRC, KC_RBRC, KC_DLR,  KC_DQUO, _______,
+//   KC_UNDO, OS_CTL,  OS_ALT,  OS_CMD,  OS_SFT,  SW_WIN,                    KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, KC_COLN, _______,
+//   _______, KC_GRV,  KC_CUT,  KC_COPY, KC_PSTE, SW_TAB,  _______, _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_QUOT, _______,
+//                              _______, _______, _______, _______, _______, KC_SPTL, _______, _______
+// ),
+//
+// [SYM] = LAYOUT(
+//   KC_TILD, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
+//   _______, KC_EXLM, KC_AT,   XXXXXXX, XXXXXXX, KC_PERC,                   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+//   _______, KC_TILD, KC_BSLS, KC_LCBR, KC_RCBR, KC_HASH,                   TT_NUM,  OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,  _______,
+//   _______, KC_GRV,  KC_PIPE, KC_AMPR, XXXXXXX, KC_PLUS, _______, _______, _______, _______, _______, _______, CW_TOGG,  _______,
+//                              _______, CW_TOGG, KC_DEL,  _______, _______, _______, _______, _______
+// ),
 };
 
 /* QWERTY Layer (Default)
