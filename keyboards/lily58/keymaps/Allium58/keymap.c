@@ -57,8 +57,8 @@ enum keycodes {
 // Combos
 const uint16_t PROGMEM esc_combo[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM ent_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM bsp_combo[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM ent_combo[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM bsp_alt_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
