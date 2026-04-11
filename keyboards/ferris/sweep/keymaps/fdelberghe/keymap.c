@@ -57,8 +57,8 @@ enum keycodes {
 // Combos
 const uint16_t PROGMEM esc_combo[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM ent_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM bsp_combo[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM ent_combo[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM bsp_alt_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
@@ -109,8 +109,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [FUNC] = LAYOUT(
-  KC_BRIU, KC_LPAD, KC_MCTL, KC_MUTE, KC_VOLU,      _______, DST_PV,  DST_NX,  _______, KC_F12,
-  KC_BRID, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD,      KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_F11,
+  KC_BRIU, KC_LPAD, KC_MCTL, KC_MUTE, KC_VOLU,      KC_HOME, DST_PV,  DST_NX,  KC_END, KC_F12,
+  KC_BRID, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
                              _______, _______,      _______, _______
 ),

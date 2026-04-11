@@ -58,6 +58,10 @@ void update_oneshot(
             case os_down_unused:
                 // If we didn't use the mod while trigger was held, queue it.
                 *state = os_up_queued;
+                {
+                    tap_tracker_t *tracker = get_tap_tracker(mod);
+                    if (tracker) tracker->timeout_timer = timer_read();
+                }
                 break;
             case os_down_used:
                 // If we did use the mod while trigger was held, unregister it.
