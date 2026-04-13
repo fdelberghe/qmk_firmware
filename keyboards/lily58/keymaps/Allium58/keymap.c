@@ -59,9 +59,12 @@ const uint16_t PROGMEM esc_combo[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_D, KC_F, COMBO_END};
 const uint16_t PROGMEM ent_combo[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM bsp_alt_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
+// Media combos
+const uint16_t PROGMEM mute_combo[] = {KC_VOLD, KC_VOLU, COMBO_END};
+const uint16_t PROGMEM play_combo[] = {KC_MPRV, KC_MNXT, COMBO_END};
+// layer combos
 const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_L, KC_SCLN, COMBO_END};
 
@@ -70,9 +73,10 @@ combo_t key_combos[] = {
     COMBO(tab_combo, KC_TAB),
     COMBO(ent_combo, KC_ENT),
     COMBO(bsp_combo, KC_BSPC),
-    COMBO(bsp_alt_combo, KC_BSPC),
     COMBO(del_combo, KC_DEL),
     COMBO(pipe_combo, KC_PIPE),
+    COMBO(mute_combo, KC_MUTE),
+    COMBO(play_combo, KC_MPLY),
     COMBO(nav_combo, TT_NAV),
     COMBO(num_combo, TT_NUM),
 };
@@ -92,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TILD, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
   _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,  _______,
-  _______, XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, CW_TOGG, XXXXXXX,  _______,
+  _______, XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX, _______, _______, KC_VOLD, KC_VOLU, KC_MPRV, KC_MNXT, CW_TOGG, _______,
                              _______, _______, KC_BSPC, LA_SYM,  _______, _______, _______, _______
 ),
 

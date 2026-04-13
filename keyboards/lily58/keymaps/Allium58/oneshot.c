@@ -13,13 +13,14 @@ typedef struct {
     uint8_t count;
     uint16_t timer;
     uint16_t timeout_timer;
+    uint16_t hold_timer;  // Track how long the key has been held
 } tap_tracker_t;
 
 // Track tap counts and timing for each oneshot key
-static tap_tracker_t os_shft_tap = {0, 0, 0};
-static tap_tracker_t os_ctrl_tap = {0, 0, 0};
-static tap_tracker_t os_alt_tap = {0, 0, 0};
-static tap_tracker_t os_cmd_tap = {0, 0, 0};
+static tap_tracker_t os_shft_tap = {0, 0, 0, 0};
+static tap_tracker_t os_ctrl_tap = {0, 0, 0, 0};
+static tap_tracker_t os_alt_tap = {0, 0, 0, 0};
+static tap_tracker_t os_cmd_tap = {0, 0, 0, 0};
 
 // Helper function to get the tap tracker for a given mod
 static tap_tracker_t *get_tap_tracker(uint16_t mod) {
@@ -67,6 +68,7 @@ void update_oneshot(
                         tap_tracker->count = 1;
                     }
                     tap_tracker->timer = timer_read();
+                    tap_tracker->hold_timer = timer_read();
 
                     if (tap_tracker->count >= ONESHOT_TAP_TOGGLE) {
                         *state = os_locked;
@@ -81,9 +83,17 @@ void update_oneshot(
             // Trigger keyup
             switch (*state) {
             case os_down_unused:
-                // If we didn't use the mod while trigger was held, queue it.
-                *state = os_up_queued;
-                if (tap_tracker) tap_tracker->timeout_timer = timer_read();
+                // If held longer than TAPPING_TERM, treat as a normal modifier:
+                // release immediately instead of queuing (allows held+mouse click).
+                if (tap_tracker && timer_elapsed(tap_tracker->hold_timer) > TAPPING_TERM) {
+                    *state = os_up_unqueued;
+                    unregister_code(mod);
+                    tap_tracker->count = 0;
+                } else {
+                    // Short tap: queue the oneshot as normal.
+                    *state = os_up_queued;
+                    if (tap_tracker) tap_tracker->timeout_timer = timer_read();
+                }
                 break;
             case os_down_used:
                 // If we did use the mod while trigger was held, unregister it.
