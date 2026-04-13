@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [EXT] = LAYOUT(
   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,
-  XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, CW_TOGG, XXXXXXX,
+  XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX,      XXXXXXX, KC_PGDN, KC_PGUP, CW_TOGG, XXXXXXX,
                              KC_BSPC, LA_SYM,       _______, _______
 ),
 
