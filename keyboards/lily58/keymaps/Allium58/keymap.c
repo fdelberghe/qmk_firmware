@@ -118,8 +118,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [FUNC] = LAYOUT(
   _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,
-  _______, KC_BRIU, KC_LPAD, KC_MCTL, KC_MUTE, KC_VOLU,                   _______, DST_PV,  DST_NX,  _______, KC_F12, _______,
-  _______, KC_BRID, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD,                   KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_F11, _______,
+  _______, KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   _______, DST_PV,  DST_NX,  _______, KC_F12, _______,
+  _______, KC_BRID, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_F11, _______,
   _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5, _______, _______,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10, _______,
                              _______, _______, _______, _______, _______, _______, _______, _______
 ),

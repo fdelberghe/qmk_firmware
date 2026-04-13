@@ -23,13 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Configure the global tapping term (default: 200ms)
 #define TAPPING_TERM 180
 #define TAPPING_TOGGLE 2
+
 // one-shot modifier options
 #define ONESHOT_TAP_TOGGLE 3
 #define ONESHOT_TIMEOUT 1500
-#define COMBO_TERM 50
+#define ONESHOT_TAPPING_TERM 200
 
-//
-// #define TAPPING_TERM 100
+#define COMBO_TERM 50
 
 #define OLED_BRIGHTNESS 8
 // #define BONGO_ENABLE

@@ -85,7 +85,7 @@ void update_oneshot(
             case os_down_unused:
                 // If held longer than TAPPING_TERM, treat as a normal modifier:
                 // release immediately instead of queuing (allows held+mouse click).
-                if (tap_tracker && timer_elapsed(tap_tracker->hold_timer) > TAPPING_TERM) {
+                if (tap_tracker && timer_elapsed(tap_tracker->hold_timer) > ONESHOT_TAPPING_TERM) {
                     *state = os_up_unqueued;
                     unregister_code(mod);
                     tap_tracker->count = 0;
