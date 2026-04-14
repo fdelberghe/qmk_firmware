@@ -59,22 +59,26 @@ const uint16_t PROGMEM esc_combo[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_D, KC_F, COMBO_END};
 const uint16_t PROGMEM ent_combo[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM bsp_alt_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_L, KC_SCLN, COMBO_END};
+// media combos
+const uint16_t PROGMEM mute_combo[] = {KC_VOLD, KC_VOLU, COMBO_END};
+const uint16_t PROGMEM prev_combo[] = {KC_MPLY, KC_MNXT, COMBO_END};
+
 
 combo_t key_combos[] = {
     COMBO(esc_combo, KC_ESC),
     COMBO(tab_combo, KC_TAB),
     COMBO(ent_combo, KC_ENT),
     COMBO(bsp_combo, KC_BSPC),
-    COMBO(bsp_alt_combo, KC_BSPC),
     COMBO(del_combo, KC_DEL),
     COMBO(pipe_combo, KC_PIPE),
     COMBO(nav_combo, TT_NAV),
     COMBO(num_combo, TT_NUM),
+    COMBO(mute_combo, KC_MUTE),
+    COMBO(prev_combo, KC_MPRV),
 };
 
 
@@ -89,8 +93,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [EXT] = LAYOUT(
   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,
-  XXXXXXX, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX,      XXXXXXX, KC_PGDN, KC_PGUP, CW_TOGG, XXXXXXX,
+  KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,
+  KC_BRID, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX,      KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT, CW_TOGG,
                              KC_BSPC, LA_SYM,       _______, _______
 ),
 
@@ -105,21 +109,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______,      KC_HOME, DST_PV,  DST_NX,  KC_END,  _______,
   TG(NAV), _______, SW_TAB,  SW_WIN,  _______,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_BSPC,
   _______, KC_CUT,  KC_COPY, KC_PSTE, _______,      KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______,
-                             KC_BSPC, KC_DEL,       _______,  XXXXXXX
+                             KC_BSPC, KC_DEL,       TG(NAV), XXXXXXX
 ),
 
 [FUNC] = LAYOUT(
-  KC_BRIU, KC_LPAD, KC_MCTL, KC_MUTE, KC_VOLU,      KC_HOME, DST_PV,  DST_NX,  KC_END, KC_F12,
-  KC_BRID, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_HOME, DST_PV,  DST_NX,  KC_END, KC_F12,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
                              _______, _______,      _______, _______
 ),
 
 [NUM] = LAYOUT(
   KC_SLSH, KC_7,    KC_8,    KC_9,    KC_ASTR,      _______, _______, _______, _______, _______,
-  KC_BSPC, KC_4,    KC_5,    KC_6,    KC_MINS,      TG(NUM), _______, _______, _______, TG(NUM),
+  KC_BSPC, KC_4,    KC_5,    KC_6,    KC_MINS,      TG(NUM), _______, _______, _______, _______,
   KC_DEL,  KC_1,    KC_2,    KC_3,    KC_PLUS,      _______, _______, _______, _______, _______,
-                             KC_0,    KC_DOT,       KC_ENT,  _______
+                             KC_0,    KC_DOT,       TG(NUM), _______
 )
 
 };

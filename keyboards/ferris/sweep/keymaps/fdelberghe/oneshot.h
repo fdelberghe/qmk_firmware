@@ -8,11 +8,13 @@ typedef enum {
     os_up_queued,
     os_down_unused,
     os_down_used,
+    os_locked,
 } oneshot_state;
 
 // Custom oneshot mod implementation that doesn't rely on timers. If a mod is
 // used while it is held it will be unregistered on keyup as normal, otherwise
 // it will be queued and only released after the next non-mod keyup.
+// Supports tap-toggle: tap ONESHOT_TAP_TOGGLE times to lock the modifier.
 void update_oneshot(
     oneshot_state *state,
     uint16_t mod,
