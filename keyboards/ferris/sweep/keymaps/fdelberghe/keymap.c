@@ -62,7 +62,7 @@ const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
-const uint16_t PROGMEM num_combo[] = {KC_L, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM num_combo[] = {KC_Z, KC_X, COMBO_END};
 // media combos
 const uint16_t PROGMEM mute_combo[] = {KC_VOLD, KC_VOLU, COMBO_END};
 const uint16_t PROGMEM prev_combo[] = {KC_MPLY, KC_MNXT, COMBO_END};
@@ -76,7 +76,7 @@ combo_t key_combos[] = {
     COMBO(del_combo, KC_DEL),
     COMBO(pipe_combo, KC_PIPE),
     COMBO(nav_combo, TT_NAV),
-    COMBO(num_combo, TT_NUM),
+    COMBO(num_combo, TG(NUM)),
     COMBO(mute_combo, KC_MUTE),
     COMBO(prev_combo, KC_MPRV),
 };
@@ -93,16 +93,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [EXT] = LAYOUT(
   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-  KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,
-  KC_BRID, XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX,      KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT, CW_TOGG,
-                             KC_BSPC, LA_SYM,       _______, _______
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,
+  KC_BRID, KC_BRIU, KC_PIPE, QK_REP,  XXXXXXX,      KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT, CW_TOGG,
+                             KC_DEL,  LA_SYM,       _______, _______
 ),
 
 [SYM] = LAYOUT(
   KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PERC,      KC_CIRC, KC_LBRC, KC_RBRC, KC_DLR,  KC_DQUO,
   OS_CTL,  OS_ALT,  OS_CMD,  OS_SFT,  KC_HASH,      KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, KC_COLN,
   KC_GRV,  KC_TILD, KC_BSLS, KC_AMPR, KC_PLUS,      KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_QUOT,
-                             _______, _______,      LA_EXT,  KC_SPTL
+                             KC_BSPC,  _______,      LA_EXT,  KC_SPTL
 ),
 
 [NAV] = LAYOUT(
@@ -114,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [FUNC] = LAYOUT(
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_HOME, DST_PV,  DST_NX,  KC_END, KC_F12,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
+  XXXXXXX, XXXXXXX, SW_TAB,  SW_WIN,  XXXXXXX,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
                              _______, _______,      _______, _______
 ),
@@ -123,16 +123,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_SLSH, KC_7,    KC_8,    KC_9,    KC_ASTR,      _______, _______, _______, _______, _______,
   KC_BSPC, KC_4,    KC_5,    KC_6,    KC_MINS,      TG(NUM), _______, _______, _______, _______,
   KC_DEL,  KC_1,    KC_2,    KC_3,    KC_PLUS,      _______, _______, _______, _______, _______,
-                             KC_0,    KC_DOT,       TG(NUM), _______
+                             KC_DOT,  KC_0,       TG(NUM), _______
 )
 
 };
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
+    // LA_SYM / LA_EXT cancel oneshot mods when pressed on their own, but NOT when
+    // used together to reach the FUNC tri-layer (SYM+EXT). If the other layer key
+    // is already held (its layer active), we're climbing into FUNC, so let the
+    // queued/held mod carry through to the next FUNC-layer key instead of cancelling.
     switch (keycode) {
-    case LA_EXT:
     case LA_SYM:
-        return true;
+        return !layer_state_is(EXT);
+    case LA_EXT:
+        return !layer_state_is(SYM);
     default:
         return false;
     }
