@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ONESHOT_TAPPING_TERM 200
 
 #define COMBO_TERM 50
+#define COMBO_SHOULD_TRIGGER
 
 #define OLED_BRIGHTNESS 8
 // #define BONGO_ENABLE

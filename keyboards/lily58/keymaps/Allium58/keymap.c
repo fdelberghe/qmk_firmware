@@ -15,6 +15,7 @@ enum layer_number {
   NAV,
   FUNC,
   NUM,
+  GAME,
 };
 
 #define LA_SYM MO(SYM)
@@ -23,6 +24,7 @@ enum layer_number {
 #define LA_NUM MO(NUM)
 #define TT_NUM TT(NUM)
 #define TT_NAV TT(NAV)
+#define TG_GAME TG(GAME)
 
 enum keycodes {
 //     // Custom oneshot mod implementation with no timers.
@@ -67,19 +69,54 @@ const uint16_t PROGMEM play_combo[] = {KC_MPLY, KC_MNXT, COMBO_END};
 // layer combos
 const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_L, KC_SCLN, COMBO_END};
+// Gaming layer toggle: top-right corner keys, clear of WASD and unused with the mouse hand resting
+const uint16_t PROGMEM game_combo[] = {KC_9, KC_0, COMBO_END};
+
+enum combo_names {
+    ESC_COMBO,
+    TAB_COMBO,
+    ENT_COMBO,
+    BSP_COMBO,
+    DEL_COMBO,
+    PIPE_COMBO,
+    MUTE_COMBO,
+    PLAY_COMBO,
+    NAV_COMBO,
+    NUM_COMBO,
+    GAME_COMBO,
+};
 
 combo_t key_combos[] = {
-    COMBO(esc_combo, KC_ESC),
-    COMBO(tab_combo, KC_TAB),
-    COMBO(ent_combo, KC_ENT),
-    COMBO(bsp_combo, KC_BSPC),
-    COMBO(del_combo, KC_DEL),
-    COMBO(pipe_combo, KC_PIPE),
-    COMBO(mute_combo, KC_MUTE),
-    COMBO(play_combo, KC_MPRV),
-    COMBO(nav_combo, TT_NAV),
-    COMBO(num_combo, TT_NUM),
+    [ESC_COMBO] = COMBO(esc_combo, KC_ESC),
+    [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
+    [ENT_COMBO] = COMBO(ent_combo, KC_ENT),
+    [BSP_COMBO] = COMBO(bsp_combo, KC_BSPC),
+    [DEL_COMBO] = COMBO(del_combo, KC_DEL),
+    [PIPE_COMBO] = COMBO(pipe_combo, KC_PIPE),
+    [MUTE_COMBO] = COMBO(mute_combo, KC_MUTE),
+    [PLAY_COMBO] = COMBO(play_combo, KC_MPRV),
+    [NAV_COMBO] = COMBO(nav_combo, TT_NAV),
+    [NUM_COMBO] = COMBO(num_combo, TT_NUM),
+    [GAME_COMBO] = COMBO(game_combo, TG_GAME),
 };
+
+// While the Gaming layer is active, suppress every combo except the ones that
+// still make sense there: toggling the layer off, and the media combos (their
+// keys live on GAME's own thumb cluster) - typing combos like S+D fire far too
+// easily in-game otherwise.
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    if (layer_state_is(GAME)) {
+        switch (combo_index) {
+            case GAME_COMBO:
+            case MUTE_COMBO:
+            case PLAY_COMBO:
+                return true;
+            default:
+                return false;
+        }
+    }
+    return true;
+}
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -130,6 +167,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_BSPC, KC_4,    KC_5,    KC_6,    KC_MINS,                   TG(NUM), _______, _______, _______, _______,  _______,
   _______, KC_DEL,  KC_1,    KC_2,    KC_3,    KC_PLUS, _______, _______, _______, _______, _______, _______, _______, _______,
                              _______, KC_0,    KC_DOT,  KC_ENT,  TG(NUM), _______, TG(NUM), _______
+),
+
+// Plain layout for gaming: no home-row mods/layer-taps to misfire mid-game,
+// and Space moved to the left thumb cluster so the right hand can stay on the mouse.
+[GAME] = LAYOUT(
+  KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSLS,
+  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_QUOT,
+  KC_ESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_ENT,
+  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   XXXXXXX, XXXXXXX,  _______, _______, _______, _______, KC_SLSH,  KC_RSFT,
+                             KC_LCTL, KC_LALT, KC_SPC, KC_SPC,  LA_EXT, KC_LCMD, XXXXXXX, XXXXXXX
 )
 
 // [EXT] = LAYOUT(

@@ -31,6 +31,9 @@ const char *read_layer_state(void) {
   case 5:
     snprintf(layer_state_str, sizeof(layer_state_str), "Layer: NUM");
     break;
+  case 6:
+    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: GAME");
+    break;
   default:
     snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%u", get_highest_layer(layer_state));
   }
