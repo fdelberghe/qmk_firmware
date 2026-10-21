@@ -53,6 +53,7 @@ enum keycodes {
 #define KC_CT_R LCTL(KC_R)
 #define KC_CM_P LGUI(KC_P)
 #define KC_SPTL LGUI(KC_SPC)
+#define S_TAB   LSFT(KC_TAB)
 
 // Combos
 const uint16_t PROGMEM esc_combo[] = {KC_S, KC_D, COMBO_END};
@@ -61,8 +62,11 @@ const uint16_t PROGMEM ent_combo[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
 const uint16_t PROGMEM pipe_combo[] = {KC_TILD, KC_BSLS, COMBO_END};
-const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
+// NAV combo disabled: FUNC layer covers most of its functionality
+// const uint16_t PROGMEM nav_combo[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM num_combo[] = {KC_Z, KC_X, COMBO_END};
+// same physical keys (Z+X) while on the NUM layer, where they are DEL and 1
+const uint16_t PROGMEM num_off_combo[] = {KC_DEL, KC_1, COMBO_END};
 // media combos
 const uint16_t PROGMEM mute_combo[] = {KC_VOLD, KC_VOLU, COMBO_END};
 const uint16_t PROGMEM prev_combo[] = {KC_MPLY, KC_MNXT, COMBO_END};
@@ -75,12 +79,21 @@ combo_t key_combos[] = {
     COMBO(bsp_combo, KC_BSPC),
     COMBO(del_combo, KC_DEL),
     COMBO(pipe_combo, KC_PIPE),
-    COMBO(nav_combo, TT_NAV),
+    // COMBO(nav_combo, TT_NAV),
     COMBO(num_combo, TG(NUM)),
+    COMBO(num_off_combo, TG(NUM)),
     COMBO(mute_combo, KC_MUTE),
     COMBO(prev_combo, KC_MPRV),
 };
 
+
+// The NUM-off combo (DEL+1) is only valid on the NUM layer
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    if (combo->keys == num_off_combo) {
+        return get_highest_layer(layer_state) == NUM;
+    }
+    return true;
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -113,10 +126,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [FUNC] = LAYOUT(
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_HOME, DST_PV,  DST_NX,  KC_END, KC_F12,
-  XXXXXXX, XXXXXXX, SW_TAB,  SW_WIN,  XXXXXXX,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
+  KC_PGUP, KC_PGDN, S_TAB,   SW_WIN,  SW_TAB,       KC_HOME, DST_PV,  DST_NX,  KC_END,  KC_F12,
+  OS_CTL,  OS_ALT,  OS_CMD,  OS_SFT,  _______,      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,KC_F11,
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
-                             _______, _______,      _______, _______
+                             XXXXXXX, _______,      _______, XXXXXXX
 ),
 
 [NUM] = LAYOUT(
@@ -164,6 +177,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
 bool is_swapper_ignored_key(uint16_t keycode) {
     switch (keycode) {
     case KC_LSFT:
+    case S_TAB:
     case OS_SFT:
     case OS_CTL:
     case OS_ALT:
@@ -178,6 +192,8 @@ bool is_swapper_ignored_key(uint16_t keycode) {
 
 bool sw_win_active = false;
 bool sw_tab_active = false;
+uint16_t sw_win_timer = 0;
+uint16_t sw_tab_timer = 0;
 
 oneshot_state os_shft_state = os_up_unqueued;
 oneshot_state os_ctrl_state = os_up_unqueued;
@@ -187,11 +203,11 @@ oneshot_state os_cmd_state = os_up_unqueued;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     update_swapper(
         &sw_win_active, KC_LGUI, KC_TAB, SW_WIN,
-        keycode, record
+        keycode, record, &sw_win_timer
     );
     update_swapper(
         &sw_tab_active, KC_LCTL, KC_TAB, SW_TAB,
-        keycode, record
+        keycode, record, &sw_tab_timer
     );
 
     update_oneshot(
@@ -232,6 +248,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 void matrix_scan_user(void) {
+    check_swapper_timeout(&sw_win_active, KC_LGUI, &sw_win_timer);
+    check_swapper_timeout(&sw_tab_active, KC_LCTL, &sw_tab_timer);
     check_oneshot_timeout(&os_shft_state, KC_LSFT);
     check_oneshot_timeout(&os_ctrl_state, KC_LCTL);
     check_oneshot_timeout(&os_alt_state, KC_LALT);

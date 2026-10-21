@@ -18,12 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 // Configure the global tapping term (default: 200ms)
-#define TAPPING_TERM 180
+#define TAPPING_TERM 170
 #define TAPPING_TOGGLE 2
 
 // One-shot modifier options
 #define ONESHOT_TAP_TOGGLE 3
-#define ONESHOT_TIMEOUT 1500
+#define ONESHOT_TIMEOUT 1200
 #define ONESHOT_TAPPING_TERM 200
 
 #define COMBO_TERM 50
+
+#define COMBO_SHOULD_TRIGGER

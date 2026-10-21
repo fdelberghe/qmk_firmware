@@ -16,5 +16,13 @@ void update_swapper(
     uint16_t tabish,
     uint16_t trigger,
     uint16_t keycode,
-    keyrecord_t *record
+    keyrecord_t *record,
+    uint16_t *timer
 );
+
+// Keys for which update_swapper() keeps cmdish held (e.g. shift for the
+// reverse direction). Defined in the keymap.
+bool is_swapper_ignored_key(uint16_t keycode);
+
+// Release cmdish once SWAPPER_TIMEOUT ms have passed since the last trigger.
+void check_swapper_timeout(bool *active, uint16_t cmdish, uint16_t *timer);
