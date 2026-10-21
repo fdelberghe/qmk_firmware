@@ -58,6 +58,8 @@ enum keycodes {
 // Combos
 const uint16_t PROGMEM esc_combo[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_D, KC_F, COMBO_END};
+// same physical keys (D+F) while on the NUM layer, where they are 5 and 6
+const uint16_t PROGMEM num_tab_combo[] = {KC_5, KC_6, COMBO_END};
 const uint16_t PROGMEM ent_combo[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM bsp_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_RPRN, KC_UNDS, COMBO_END};
@@ -75,6 +77,7 @@ const uint16_t PROGMEM prev_combo[] = {KC_MPLY, KC_MNXT, COMBO_END};
 combo_t key_combos[] = {
     COMBO(esc_combo, KC_ESC),
     COMBO(tab_combo, KC_TAB),
+    COMBO(num_tab_combo, KC_TAB),
     COMBO(ent_combo, KC_ENT),
     COMBO(bsp_combo, KC_BSPC),
     COMBO(del_combo, KC_DEL),
@@ -87,10 +90,14 @@ combo_t key_combos[] = {
 };
 
 
-// The NUM-off combo (DEL+1) is only valid on the NUM layer
+// Layer-restricted combos: NUM-off (DEL+1) and NUM tab (5+6) only on NUM,
+// DEL (")" + "_") only on SYM
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    if (combo->keys == num_off_combo) {
+    if (combo->keys == num_off_combo || combo->keys == num_tab_combo) {
         return get_highest_layer(layer_state) == NUM;
+    }
+    if (combo->keys == del_combo) {
+        return get_highest_layer(layer_state) == SYM;
     }
     return true;
 }
@@ -107,15 +114,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [EXT] = LAYOUT(
   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      KC_BSPC, OS_SFT,  OS_CMD,  OS_ALT,  OS_CTL,
-  KC_BRID, KC_BRIU, KC_PIPE, QK_REP,  XXXXXXX,      KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT, CW_TOGG,
-                             KC_DEL,  LA_SYM,       _______, _______
+  KC_BRID, KC_BRIU, KC_PIPE, XXXXXXX, QK_REP,       KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT, CW_TOGG,
+                             KC_DOT,  LA_SYM,       _______, _______
 ),
 
 [SYM] = LAYOUT(
   KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PERC,      KC_CIRC, KC_LBRC, KC_RBRC, KC_DLR,  KC_DQUO,
   OS_CTL,  OS_ALT,  OS_CMD,  OS_SFT,  KC_HASH,      KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, KC_COLN,
   KC_GRV,  KC_TILD, KC_BSLS, KC_AMPR, KC_PLUS,      KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_QUOT,
-                             KC_BSPC,  _______,      LA_EXT,  KC_SPTL
+                             _______,  _______,      LA_EXT,  KC_SPTL
 ),
 
 [NAV] = LAYOUT(
